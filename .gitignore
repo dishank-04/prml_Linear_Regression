@@ -1,0 +1,7 @@
+#Ignore Personal Files
+Notes/daily_log.md
+Notes/roadmap.md
+# Ignore the Experiments folder and CSV data
+Experiments/
+# Ignore Python cache files
+src/__pycache__/
