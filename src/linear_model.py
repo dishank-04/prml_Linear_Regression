@@ -3,8 +3,9 @@ from src.utils import create_design_matrix
 
 class LinearRegressionPRML:
 
-    def __init__(self) -> None:
+    def __init__(self, degree=3) -> None:
         self.weights: np.ndarray | None = None # Intialized as None, Will be numpy array of shape (D+1, ) after fitting.
+        self.degree = degree # Stores the degree for Polynomial Regression
 
     def fit(self, X:np.ndarray, t:np.ndarray) -> None:
 
@@ -23,7 +24,7 @@ class LinearRegressionPRML:
         if X.shape[0] != t.shape[0]:
             raise ValueError("Number of samples in X must match the number of targets in t")
 
-        phi = create_design_matrix(X) # Creating Design Matrix
+        phi = create_design_matrix(X, degree=self.degree) # Creating Design Matrix
 
         #Componenets required for computing weights
 
@@ -64,7 +65,7 @@ class LinearRegressionPRML:
         if self.weights is None:
             raise RuntimeError("Model is not fitted yet. Run 'fit' method first")
         
-        phi = create_design_matrix(X)
+        phi = create_design_matrix(X, degree=self.degree)
 
         predictions = phi @ self.weights
         return predictions

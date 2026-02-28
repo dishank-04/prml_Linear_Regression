@@ -27,7 +27,7 @@ def standardize_data(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]
     return X_Standardized, mean, std
 
 
-def create_design_matrix(X: np.ndarray) -> np.ndarray:
+def create_design_matrix(X: np.ndarray, degree=3) -> np.ndarray:
 
     """
     Creates the Design Matrix, phi, by prepending the columns of ones to X.
@@ -40,9 +40,16 @@ def create_design_matrix(X: np.ndarray) -> np.ndarray:
     """
 
     num_samples = X.shape[0]
-    ones_columns = np.ones((num_samples,1))
+    initial_phi = [np.ones((num_samples,1))] # This is column 0 for all ones
 
-    phi = np.hstack((ones_columns, X))
+    for feature_index in range(X.shape[1]):
+            
+            column = X[:, feature_index].reshape(-1, 1)
+
+            for d in range(1, degree + 1):
+                initial_phi.append(np.power(column, d))
+
+    phi = np.hstack(initial_phi)
 
     return phi
 
